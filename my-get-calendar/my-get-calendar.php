@@ -5,7 +5,7 @@
  */
 /*
 Plugin Name: My Get Calendar
-Plugin URI: http://wordpress.org/extend/plugins/hello-dolly/
+Plugin URI: https://github.com/ekkun/my_get_calendar
 Description: get_calendar()のカレンダーにエントリータイトルを出力します。
 Author: Ekkun
 Version: 0.1
