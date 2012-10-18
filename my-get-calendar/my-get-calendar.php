@@ -1,43 +1,23 @@
 <?php
 /**
  * @package My Get Calendar
- * @version 0.1
+ * @version 0.2
  */
 /*
 Plugin Name: My Get Calendar
 Plugin URI: https://github.com/ekkun/my_get_calendar
 Description: get_calendar()のカレンダーにエントリータイトルを出力します。
 Author: Ekkun
-Version: 0.1
+Version: 0.2
 Author URI: http://www.ekkun.com/
 */
 
 function my_get_calendar($yearmonth = '', $initial = true, $echo = true) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
-	$m = $yearmonth;
-
-	$cache = array();
-	$key = md5( $m . $monthnum . $year );
-	if ( $cache = wp_cache_get( 'my_get_calendar', 'calendar' ) ) {
-		if ( is_array($cache) && isset( $cache[ $key ] ) ) {
-			if ( $echo ) {
-				echo apply_filters( 'my_get_calendar',  $cache[$key] );
-				return;
-			} else {
-				return apply_filters( 'my_get_calendar',  $cache[$key] );
-			}
-		}
-	}
-
-	if ( !is_array($cache) )
-		$cache = array();
-
 	if ( !$posts ) {
 		$gotsome = $wpdb->get_var("SELECT 1 as test FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' LIMIT 1");
 		if ( !$gotsome ) {
-			$cache[ $key ] = '';
-			wp_cache_set( 'my_get_calendar', $cache, 'calendar' );
 			return;
 		}
 	}
@@ -216,14 +196,7 @@ function my_get_calendar($yearmonth = '', $initial = true, $echo = true) {
 
 	$calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>";
 
-	$cache[ $key ] = $calendar_output;
-	wp_cache_set( 'my_get_calendar', $cache, 'calendar' );
-
-	if ( $echo ) {
-		echo apply_filters( 'my_get_calendar',  $calendar_output );
-	} else {
-		return apply_filters( 'my_get_calendar',  $calendar_output );
-	}
+	echo $calendar_output;
 }
 
 function sc_my_get_calendar($atts, $cont) {
